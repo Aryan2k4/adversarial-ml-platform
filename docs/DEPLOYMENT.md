@@ -1,35 +1,30 @@
-# Permanent deployment
+# Free deployment
 
-Use one Render Docker web service with a persistent disk. The UI and API share
-one HTTPS origin; separate frontend hosting and CORS configuration are unnecessary.
+The root render.yaml deploys a free Docker web service with no paid disk.
+The frontend and API share one HTTPS origin. Connect the private GitHub repository
+in Render, create a Blueprint, and select main. No paid resources are configured.
 
-1. Install/connect Render and sign in or create your hosting account.
-2. Put this source in a private GitHub repository and authorize Render to read it.
-   Exclude .env, databases, uploaded data, node_modules, and test artifacts.
-3. Create a Render Blueprint using the root `render.yaml`.
-4. Review the Starter service and 1 GB disk charges before confirming creation.
-   Render requires a paid service for persistent disks.
-5. Wait for deployment success and copy the actual assigned HTTPS URL. Do not
-   infer the URL from the service name.
+## Data and availability limits
 
-The root Dockerfile builds React and mounts the API at /api. /api/health must
-return HTTP 200 and database=up. SQLite and uploads live under /app/storage on the
-persistent disk. Migrations run at boot. Keep the generated JWT secret stable.
+This is a capstone demonstration, not durable production hosting. Render's free
+service sleeps after 15 minutes without inbound traffic and takes about a minute
+to wake. Its local SQLite database and uploaded bundles are lost on spin-down,
+restart or redeploy. Download PDF/HTML/JSON results before leaving; register again
+if your account has been reset. VITE_FREE_DEMO=true displays this warning in the UI.
+The assigned public URL remains tied to the service, subject to Render account,
+usage and availability limits; it is not a guarantee of permanent availability.
 
-## Acceptance checks
+Free Render Postgres expires after 30 days and is deliberately not provisioned.
+Durable free hosting requires an external database plus durable model storage;
+those are not part of this deployment. Do not treat local disk as persistent.
 
-Register; load the example; run all four experiments; download PDF/HTML/JSON;
-refresh a scan deep link; restart the service and verify accounts, uploaded
-bundles, and completed scans remain. Interrupted scans must show a failed status
-with a retry message. Verify another account cannot access the first account's
-models, scans, or reports.
+## Runtime and checks
 
-## Operations
+One replica, one Uvicorn worker, at most two concurrent evaluations. Migrations
+run at boot. /api/health must return 200 with database=up. Test registration,
+example upload, all four attacks, report downloads and scan deep links. The
+Docker image runs as a non-root user and generates no shared demo credentials.
+Keep the generated JWT secret stable. Paid persistent hosting can later attach
+/app/storage as a persistent disk on a paid service and disable VITE_FREE_DEMO.
 
-Use one replica and one Uvicorn worker. At most two evaluations run concurrently.
-Move to a durable job queue and shared storage before scaling. Keep database-
-consistent backups and disk snapshots. Add storage quotas and external abuse
-monitoring for larger public use. The public URL remains available while the
-hosting account and service are maintained and billing remains current.
-
-Sources: https://render.com/docs/blueprint-spec and https://render.com/docs/disks
+Source: https://render.com/docs/free

@@ -15,6 +15,13 @@ export default function App() {
   const authed = useIsAuthed();
 
   return (
+    <>
+    {import.meta.env.VITE_FREE_DEMO === "true" && (
+      <div role="note" className="border-b border-rule bg-paper px-6 py-3 text-sm">
+        Free demo: accounts, uploads and scan history reset when the server restarts or sleeps.
+        Download your reports before leaving. The first visit after inactivity may take about a minute.
+      </div>
+    )}
     <Routes>
       <Route path="/login" element={authed ? <Navigate to="/models" replace /> : <Login />} />
       <Route
@@ -31,5 +38,6 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to={authed ? "/models" : "/login"} replace />} />
     </Routes>
+    </>
   );
 }

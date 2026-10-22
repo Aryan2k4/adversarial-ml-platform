@@ -2,15 +2,13 @@ services:
   - type: web
     name: adversarial-ml-platform
     runtime: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile
     healthCheckPath: /api/health
     numInstances: 1
-    disk:
-      name: redteam-data
-      mountPath: /app/storage
-      sizeGB: 1
     envVars:
+      - key: VITE_FREE_DEMO
+        value: "true"
       - key: DATABASE_URL
         value: sqlite:////app/storage/redteam.db
       - key: STORAGE_DIR

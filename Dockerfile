@@ -3,6 +3,8 @@ WORKDIR /frontend
 COPY frontend/package*.json ./
 RUN npm ci
 COPY frontend/ ./
+ARG VITE_FREE_DEMO=false
+ENV VITE_FREE_DEMO=$VITE_FREE_DEMO
 RUN npm run build
 
 FROM python:3.12-slim
