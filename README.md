@@ -9,6 +9,12 @@ JSON coefficients plus labeled datasets. Arbitrary pickle, PyTorch, ONNX and
 XGBoost artifacts are not executed. Historical scans from the original mock
 pipeline are not evidence of real evaluation; upload a new JSON bundle.
 
+## Hosted demo
+
+[Open the free demo](https://adversarial-ml-platform.onrender.com) | [GitHub repository](https://github.com/Aryan2k4/adversarial-ml-platform)
+
+The free server may take about a minute to wake. Accounts, uploads and scans reset on sleep/restart; export reports before leaving.
+
 ## Local setup
 
 Use Python 3.12 and Node 22 (matching the production container).
@@ -52,8 +58,9 @@ docker run --rm adversarial-ml-capstone:tested python -m pytest -q
 The root Dockerfile serves both frontend and API. `render.yaml` defines one paid
 service with persistent storage and a generated JWT key. See
 [deployment](docs/DEPLOYMENT.md) and [evaluation methodology](docs/EVALUATION.md).
-Hosting account access is required before a public URL can be issued.
+The public demo uses the free Render plan.
 
 Older milestone documents are retained as historical handoff notes. This README
 and EVALUATION.md describe the current implementation.
+
 

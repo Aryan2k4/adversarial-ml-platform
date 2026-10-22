@@ -56,7 +56,7 @@ Synthetic example (200 held-out rows, seed 42, epsilon 0.05):
 - Label-flip accuracy losses: 0%, 0.5%, 3% at 1%, 5%, 10% contamination.
 - Combined empirical score: 87.5 (B). This is not a certified robustness result.
 
-## Remaining scope and deployment blocker
+## Remaining scope and hosting limits
 
 Supports linear-softmax classifiers with normalized continuous features only.
 No arbitrary pickle/PyTorch/ONNX/XGBoost, LLM adapters, HopSkipJump, certified
@@ -65,7 +65,9 @@ Poisoning evaluates paired reference retraining. It does not alter uploaded weig
 Read EVALUATION.md before making capstone claims. Run representative real-world
 held-out datasets for the final academic evaluation; the included demo is synthetic.
 
-A permanent public deployment has not been created. Render connection, a source
-repository, and paid persistent-hosting setup are still required. The local
-Docker URL is a review instance, not a permanent public link. render.yaml and
-Dockerfile are prepared. No cloud charges were incurred by this work.
+On 2026-10-22 the source was published to Aryan2k4/adversarial-ml-platform and
+GitHub CI passed. At the user's request, render.yaml now selects the free tier.
+The local named-volume restart test above does not apply to the free hosted demo:
+Render resets local SQLite and uploaded files on sleep, restart or redeploy.
+No persistent cloud disk or paid service is configured. See DEPLOYMENT.md.
+
