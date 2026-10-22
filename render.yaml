@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: adversarial-ml-platform
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    numInstances: 1
+    disk:
+      name: redteam-data
+      mountPath: /app/storage
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////app/storage/redteam.db
+      - key: STORAGE_DIR
+        value: /app/storage/models
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ENVIRONMENT
+        value: prod
+      - key: SCAN_TIMEOUT_SECONDS
+        value: "120"
+      - key: MAX_MODEL_SIZE_MB
+        value: "10"
+      - key: CORS_ORIGINS
+        value: ""

@@ -1,0 +1,22 @@
+# Local dev Postgres only. M2's sandbox containers are NOT modelled here — the sandbox is
+# launched by M2's own docker SDK code at scan time, not as a compose service.
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: redteam-postgres
+    environment:
+      POSTGRES_USER: redteam
+      POSTGRES_PASSWORD: redteam
+      POSTGRES_DB: redteam
+    ports:
+      - "5432:5432"
+    volumes:
+      - redteam-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U redteam"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  redteam-pgdata:
